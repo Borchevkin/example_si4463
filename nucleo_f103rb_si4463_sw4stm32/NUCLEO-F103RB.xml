@@ -3,8 +3,8 @@
   <board id="nucleo-f103rb">
     <name>NUCLEO-F103RB</name>
     <mcuId>stm32f103rbtx</mcuId>
-    <dbgIF>JTAG</dbgIF>
     <dbgIF>SWD</dbgIF>
+    <dbgIF>JTAG</dbgIF>
     <dbgDEV>ST-Link</dbgDEV>
   </board>
 </targetDefinitions>

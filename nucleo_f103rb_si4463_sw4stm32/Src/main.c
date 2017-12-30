@@ -69,8 +69,8 @@ static void MX_USART1_UART_Init(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-bool SI4463_IsCTS(void);
-void SI4463_WriteRead(uint8_t * pTxData, uint8_t * pRxData, uint16_t sizeTxData);
+uint8_t SI4463_IsCTS(void);
+void SI4463_WriteRead(const uint8_t * pTxData, uint8_t * pRxData, const uint16_t sizeTxData);
 void SI4463_SetShutdown(void);
 void SI4463_ClearShutdown(void);
 void SI4463_Select(void);
@@ -113,7 +113,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   /* Assign functions */
-  si4463.IsCTS = SI4463_IsCTS;
+  si4463.IsClearToSend = SI4463_IsCTS;
   si4463.WriteRead = SI4463_WriteRead;
   si4463.Select = SI4463_Select;
   si4463.Deselect = SI4463_Deselect;
@@ -529,19 +529,19 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   UNUSED(huart);
 }
 
-bool SI4463_IsCTS(void)
+uint8_t SI4463_IsCTS(void)
 {
 	if(HAL_GPIO_ReadPin(CTS_GPIO_Port, CTS_Pin) == GPIO_PIN_SET)
 	{
-		return true;
+		return 1;
 	}
 	else
 	{
-		return false;
+		return 0;
 	}
 }
 
-void SI4463_WriteRead(uint8_t * pTxData, uint8_t * pRxData, uint16_t sizeTxData)
+void SI4463_WriteRead(const uint8_t * pTxData, uint8_t * pRxData, const uint16_t sizeTxData)
 {
 	HAL_SPI_TransmitReceive(&hspi1, pTxData, pRxData, sizeTxData, 100);
 }
